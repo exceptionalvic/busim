@@ -1,0 +1,172 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Projects</li>
+        <li class="breadcrumb-item active">Update Equipment Maintenance Log</li>
+{% endblock breadcrumb%}
+
+
+
+
+
+{% block content %}
+<title>{% block title %}Update Equipment Maintenance Log - Building Site Management System{% endblock title %}</title>
+<div class="container animated fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="card-group">
+                    <div class="card p-4 mb-5">
+                        <div class="card-body">
+                            {% if created1 %}
+                              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  Congratulations, your equipment maintenance log was updated!
+                              </div>
+                            {% endif %}
+                            {% if created %}
+                              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  Congratulations, your equipment maintenance log was created!
+                              </div>
+                            {% endif %}
+                                {% csrf_token %}
+                                <h1>Update Equipments Maintenance Log</h1>
+                                <p class="text-muted">Update equipment maintenance here</p>
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-list"></i></span>
+                                        </div>
+
+                                        {{ form.project }}
+                                        {% if form.project.errors %}
+                                            <ol>
+                                            {% for error in form.project.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-star"></i></span>
+                                        </div>
+
+                                        {{ form.tool_name }}
+                                        {% if form.tool_name.errors %}
+                                            <ol>
+                                            {% for error in form.tool_name.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Assign. <i>Crtl+click for multiple selection</i></label>
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        {{ form.assign }}
+                                        {% if form.assign.errors %}
+                                            <ol>
+                                            {% for error in form.assign.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-calculator"></i></span>
+                                        </div>
+                                        {{ form.maint_cost }}
+                                        {% if form.maint_cost.errors %}
+                                            <ol>
+                                            {% for error in form.maint_cost.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Maintenance Dead Line</label>
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                        </div>
+                                        {{ form.maint_deadline }}
+                                    </div>
+
+                                    {% if form.maint_deadline.errors %}
+                                            <ol>
+                                            {% for error in form.maint_deadline.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-form-label">Status</label>
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-circle"></i></span>
+                                        </div>
+                                        {{ form.status }}
+                                        {% if form.status.errors %}
+                                            <ol>
+                                            {% for error in form.status.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-form-label">Due</label>
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                                        </div>
+                                        {{ form.due }}
+                                        {% if form.due.errors %}
+                                            <ol>
+                                            {% for error in form.due.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                                </div>
+                            </form>
+                            {{ form.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

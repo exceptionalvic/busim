@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">Home</li>
+<li class="breadcrumb-item">Projects</li>
+<li class="breadcrumb-item active">Equipment Maintenance Logs</li>
+{% endblock breadcrumb%}
+{% block content %}
+<title>{% block title %}All Equipment Maintenance - Building Site Management System{% endblock title %}</title>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>{{ toollist.count }} Active Maintenance</strong>
+        </div>
+        <div class="card-body">
+
+		<table class="table table-hover">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Equipment</th>
+		      <th scope="col">Due</th>
+		      <th scope="col">Status</th>
+		      <th scope="col">Cost</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for tool in toollist %}
+		    <tr>
+		      <th scope="row">{{ tool.id }}</th>
+		      <td>{{ tool.tool_name }}</td>
+		      <td>{{ tool.maint_deadline }}</td>
+		      {% if tool.status == '1' %}
+		      <td class="text-danger">Stuck</td>
+		      {% elif tool.status == '2' %}
+		      <td class="text-success">Working</td>
+		      {% else %}
+		      <td class="text-success">Done</td>
+		      {% endif %}
+		      <td>GBP {{ tool.maint_cost }}</td>
+		      <td><a href="{% url 'projects:update-tool' tool.id %}" class="btn btn-outline-dark btn-sm">Update</a></td>
+		    </tr>
+		    
+		    {% endfor %}
+		  </tbody>
+		</table>
+		<!-- <p>Status 1 = Stuck; Status 2 = Working; Status 3 = Done</p> -->
+	</div>
+</div>
+
+{% endblock %}

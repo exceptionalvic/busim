@@ -1,0 +1,285 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">Home</li>
+<li class="breadcrumb-item">Projects</li>
+<li class="breadcrumb-item active">Views</li>
+{% endblock breadcrumb%}
+{% block content %}
+<title>{% block title %}{{ project }} - Building Site Management System{% endblock title %}</title>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>{{ project }} Overview</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+            <!-- /.col-->
+            <div class="col-sm-3 col-lg-3">
+              <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="h3">{{ impact_rating }}%</div>
+                    <div class="fw-bold text-uppercase text-medium-emphasis small">% Risk Impact</div>
+                  </div>
+                  <div class="vr"></div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-lg-3">
+              <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="h3">£{{ project.project_cost }}</div>
+                    <div class="fw-bold text-uppercase text-medium-emphasis small">Project Cost</div>
+                  </div>
+                  <div class="vr"></div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-lg-3">
+              <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
+                <div class="card-body row text-center">
+                  <div class="col">
+                    {% if all_cost > project.project_cost %}
+                    <div class="h3 text-danger">£{{ all_cost }}</div>
+                    <small class="text-danger mt-1"> Actual cost exceeds budget</small>
+                    {% else %}
+                    <div class="h3">£{{ all_cost }}</div>
+                    {% endif %}
+                    <div class="fw-bold text-uppercase text-medium-emphasis small">Total Spent</div>
+                  </div>
+                  <div class="vr"></div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 col-lg-3">
+              <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="h3">{{ project.dead_line }}</div>
+                    <div class="fw-bold text-uppercase text-medium-emphasis small">Deadline</div>
+                  </div>
+                  <div class="vr"></div>
+                  
+                </div>
+              </div>
+            </div>
+            <!-- /.col-->
+
+          </div>
+          <!-- /.row-->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-4">
+                <div class="card-header">Project Metrics</div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="border-start border-start-4 border-start-info px-3 mb-3"><small class="fw-bold lead text-medium-emphasis">Total Tasks</small>
+                            <div class="fs-5 fw-semibold">{{ tasks.count }}</div>
+                          </div>
+                        </div>
+                        <!-- /.col-->
+                        <div class="col-6">
+                          <div class="border-start border-start-4 border-start-danger px-3 mb-3"><small class="fw-bold lead text-medium-emphasis">Total Safety Logs</small>
+                            <div class="fs-5 fw-semibold">{{ safety.count }} Days</div>
+                          </div>
+                        </div>
+                        <!-- /.col-->
+                      </div>
+                      <!-- /.row-->
+                      <hr class="mt-0">
+                      <div class="progress-group mb-4">
+                        <div class="progress-group-prepend"><span class="h6 fw-bold text-medium-emphasis small">Project Completion: {{ project.complete_per }}%</span></div>
+                        <div class="progress-group-bars">
+                          <div class="progress progress-thin">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ project.complete_per }}%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="progress progress-thin">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.col-->
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="border-start border-start-4 border-start-warning px-3 mb-3"><small class="fw-bold lead text-medium-emphasis">Total Maintenance Log</small>
+                            <div class="fs-5 fw-semibold">{{ maints.count }}</div>
+                          </div>
+                        </div>
+                        <!-- /.col-->
+                        <div class="col-6">
+                          <div class="border-start border-start-4 border-start-success px-3 mb-3"><small class="fw-bold lead text-medium-emphasis">% of Total Expense</small>
+                            <div class="fs-5 fw-semibold">%{{ percentage_cost }}</div>
+                          </div>
+                        </div>
+                        <!-- /.col-->
+                      </div>
+                      <!-- /.row-->
+                      <hr class="mt-0">
+                      <div class="progress-group mb-4">
+                        <div class="progress-group-prepend"><span class="text-medium-emphasis small">% Cost From Equipment Maintenance: %{{ per_maint }}</span></div>
+                        <div class="progress-group-bars">
+                          <div class="progress progress-thin">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ per_maint }}%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="progress progress-thin">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="{% url 'projects:update-project' project.id %}" class="btn btn-outline-dark mt-1">Update Project</a>
+                    </div>
+                    <!-- /.col-->
+                  </div>
+            <div class="row">
+                <!-- PROJECT DEATILS -->
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="callout callout-dark">
+                                <small class="text-muted">Tasks</small>
+                                <br>
+                                <strong class="h4">{{ tasks.count }}</strong>
+                                <a href="{% url 'projects:all-task' %}" class="btn btn-outline-dark btn-sm ml-2">view tasks</a>
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-3" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="callout callout-danger">
+                                <small class="text-muted">Overdue Tasks </small>
+                                <br>
+                                <strong class="h4">{{ overdue_tasks.count }}</strong>
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-4" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="callout callout-dark">
+                                <small class="text-muted">Equipment Maintenance</small>
+                                <br>
+                                <strong class="h4">{{ maints.count }}</strong>
+                                
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-3" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="callout callout-danger">
+                                <small class="text-muted">Overdue Maintenance Schedule </small>
+                                <br>
+                                <strong class="h4">{{ overdue_maints.count }}</strong>
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-4" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="callout callout-dark">
+                                <small class="text-muted">Safety Management Log</small>
+                                <br>
+                                <strong class="h4">{{ safety.count }}</strong>
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-3" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="callout callout-danger">
+                                <small class="text-muted">Risky Days </small>
+                                <br>
+                                <strong class="h4">{{ risky_days }}</strong>
+                                <div class="chart-wrapper"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                    <canvas id="sparkline-chart-4" width="86" height="25" class="chartjs-render-monitor" style="display: block; width: 86px; height: 25px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-0">
+                    <ul class="horizontal-bars type-2">
+                    <li>
+                        <i class="fa fa-percent"></i>
+                        <span class="title">Projects</span>
+                        <span class="value">{{ avg_projects|floatformat }}%</span>
+                        <div class="bars">
+                            <div class="progress progress-xs">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ avg_projects|floatformat }}%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    {% for project in projects %}
+                    <li class="my-2">
+                        {% if project.status == '1' %}
+                                <span class="badge badge-danger" style="width: 50px;">Stuck</span>
+                            {% elif project.status == '2' %}
+                                <span class="badge badge-info" style="width: 50px;">Working</span>
+                            {% else %}
+                                <span class="badge badge-success" style="width: 50px;">Done!</span>
+                            {% endif %}
+                        <span class="title ml-1">Project: {{ project }}</span>
+
+                        <span class="value"> <span class="text-muted small">deadline: </span>{{ project.dead_line }}
+                            <span class="text-muted small">({{ project.complete_per }}%)</span>
+                        </span>
+                        <div class="bars">
+                            <div class="progress progress-xs">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ project.complete_per }}%" aria-valuenow="{{ project.complete_per }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+            <br>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>Project Summary</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6 col-lg-6">
+                    <p>{{ project.description }}</p>
+                </div>
+                <div class="col-sm-6 col-lg-6">
+                    <h5>Assigned Staff:</h5>
+                    {% for staff in project.assign.all %}
+                    <p>{{ staff.first_name }} {{ staff.last_name }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+                
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">Home</li>
+<li class="breadcrumb-item">Projects</li>
+<li class="breadcrumb-item active">Safety Logs</li>
+{% endblock breadcrumb%}
+{% block content %}
+<title>{% block title %}All Safety Log - Building Site Management System{% endblock title %}</title>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>{{ safetylist.count }} Safety Management Logs</strong>
+        </div>
+        <div class="card-body">
+
+		<table class="table table-hover">
+		  <thead>
+		    <tr>
+		      <th scope="col"># of Workers</th>
+		      <th scope="col">Safety Kits?</th>
+		      <th scope="col">Are Tools Kept Safely?</th>
+		      <th scope="col">Date</th>
+		      
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for s in safetylist %}
+		    <tr>
+		      <th scope="row">{{ s.workers_no }}</th>
+		      {% if s.safety_kits == '1' %}
+		      <td class="text-success">Yes</td>
+		      {% elif s.safety_kits == '2' %}
+		      <td class="text-danger">No</td>
+		      {% else %}
+		      <td class="text-warning">Not Sure</td>
+		      {% endif %}
+
+		      {% if s.tool_safe == '1' %}
+		      <td class="text-success">Yes</td>
+		      {% elif s.tool_safe == '2' %}
+		      <td class="text-danger">No</td>
+		      {% else %}
+		      <td class="text-warning">Not Sure</td>
+		      {% endif %}
+		      <td>{{ s.add_date }}</td>
+		      <td><a href="{% url 'projects:update-safety' s.id %}" class="btn btn-outline-dark btn-sm">Update</a></td>
+		      
+		    </tr>
+		    
+		    {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}

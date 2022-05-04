@@ -1,0 +1,163 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Projects</li>
+        <li class="breadcrumb-item active">New Safety Log</li>
+{% endblock breadcrumb%}
+
+
+
+
+
+{% block content %}
+<title>{% block title %}New Safety Management Log- Building Site Management System{% endblock title %}</title>
+<div class="container animated fadeIn">
+        <div class="row justify-content-center">
+            <div class="col-7">
+                <div class="card-group">
+                    <div class="card p-4 mb-5">
+                        <div class="card-body">
+                            {% if created %}
+                              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  Congratulations, your safety log was created!
+                              </div>
+                            {% endif %}
+                                {% csrf_token %}
+                                <h1>Site Safety Management Log</h1>
+                                <p class="text-muted">Create your safety log here</p>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="col-form-label">Project Safety</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-puzzle-piece"></i></span>
+                                            </div>
+                                            {{ form.project }}
+                                            {% if form.project.errors %}
+                                                <ol>
+                                                {% for error in form.project.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Number of workers on site. <i>enter digits</i></label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-users"></i></span>
+                                            </div>
+                                            {{ form.workers_no }}
+                                            {% if form.workers_no.errors %}
+                                                <ol>
+                                                {% for error in form.workers_no.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">List of Workers on site</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-align-center"></i></span>
+                                            </div>
+                                            {{ form.worker_names }}
+                                            {% if form.worker_names.errors %}
+                                                <ol>
+                                                {% for error in form.worker_names.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Safety Kits</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                            </div>
+                                            {{ form.safety_kits }}
+                                            {% if form.safety_kits %}
+                                                <ol>
+                                                {% for error in form.safety_kits %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Fragile Tools</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                            </div>
+                                            {{ form.fragile_tools }}
+                                            {% if form.fragile_tools.errors %}
+                                                <ol>
+                                                {% for error in form.fragile_tools.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Hazardous Tools</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                            </div>
+                                            {{ form.hazard_tools }}
+                                            {% if form.hazard_tools.errors %}
+                                                <ol>
+                                                {% for error in form.hazard_tools.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Are Hazardous/Fragile Tools Safely Kept?</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                            </div>
+                                            {{ form.tool_safe }}
+                                            {% if form.tool_safe.errors %}
+                                                <ol>
+                                                {% for error in form.tool_safe.errors %}
+                                                    <li><strong>{{ error|escape }}</strong></li>
+                                                {% endfor %}
+                                                </ol>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="">
+                                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                                    </div>
+                                </form>
+                            {{ form.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
